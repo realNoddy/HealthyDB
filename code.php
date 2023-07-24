@@ -18,7 +18,7 @@
         $and = true;
         if (array_key_exists("filter_vitamine",$_POST) && !empty($_POST["filter_vitamine"])){
             $sql = 'SELECT * FROM ((obst INNER JOIN relation_obst_vitamine ON obst.o_id = relation_obst_vitamine.r_o_id) INNER JOIN vitamine ON vitamine.v_id = relation_obst_vitamine.r_v_id';
-            $sql .= " AND (";
+            $sql .= ") WHERE (";
             $first = true;
             foreach ($_POST["filter_vitamine"] as $v){
                 if (!$first){ $sql .= " OR"; }
@@ -28,7 +28,7 @@
             $sql .= " ) ";
             $valid = true;
         }else{
-            $sql = 'SELECT * FROM obst WHERE (';
+            $sql = 'SELECT * FROM obst WHERE ';
             $and = false;
         }
 
@@ -57,8 +57,6 @@
             $valid = true;
         }
 
-        $sql .= ");"; // ;(
-
         if ($valid){
             $_POST["sql"] = $sql;
 
@@ -81,7 +79,7 @@
                     $collector[] = $f;
                 }
             }
-    
+            
             $_POST["result"] = $collector;
         }
     }
